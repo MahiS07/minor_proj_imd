@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Activity Logs - Admin Dashboard</title>
+    <script src="/js/tailwind.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        .header {
+            background: #ffffff;
+            border-bottom: 1px solid #e5e7eb;
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
+            padding: 14px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: nowrap;
+        }
+        .header-left {
+            min-width: 0;
+            flex: 1 1 auto;
+        }
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .logo-image {
+            width: 52px;
+            height: 52px;
+            object-fit: contain;
+        }
+        .header-text h1 {
+            margin: 0;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #1d4ed8;
+            line-height: 1.2;
+        }
+        .header-text p {
+            margin: 2px 0 0;
+            font-size: 0.82rem;
+            color: #475569;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-left: auto;
+            flex-wrap: nowrap;
+            justify-content: flex-end;
+            flex: 0 0 auto;
+        }
+        .user-log-header {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 9px 12px;
+            border-radius: 10px;
+            border: 1px solid #dbeafe;
+            background: #eff6ff;
+            color: #1e40af;
+            font-weight: 600;
+            font-size: 0.88rem;
+            transition: all 0.2s ease;
+        }
+        .user-log-header:hover {
+            background: #dbeafe;
+        }
+        .user-profile-wrapper {
+            position: relative;
+        }
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border: 1px solid #e5e7eb;
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 8px 10px;
+            cursor: pointer;
+            min-width: 176px;
+        }
+        .profile-avatar,
+        .dropdown-avatar {
+            width: 34px;
+            height: 34px;
+            border-radius: 9999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: #ffffff;
+            background: #2563eb;
+        }
+        .profile-info {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.1;
+            min-width: 0;
+        }
+        .profile-name {
+            font-size: 0.86rem;
+            font-weight: 700;
+            color: #1f2937;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 98px;
+        }
+        .profile-role {
+            font-size: 0.72rem;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+            font-weight: 600;
+        }
+        .dropdown-icon {
+            color: #64748b;
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+        }
+        .profile-dropdown {
+            position: absolute;
+            right: 0;
+            top: calc(100% + 8px);
+            width: 240px;
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            box-shadow: 0 12px 28px rgba(2, 8, 23, 0.12);
+            z-index: 50;
+            padding: 8px 0;
+        }
+        .dropdown-header {
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .dropdown-name {
+            margin: 0;
+            color: #111827;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+        .dropdown-role {
+            margin: 2px 0 0;
+            color: #64748b;
+            font-size: 0.76rem;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+            font-weight: 600;
+        }
+        .dropdown-divider {
+            height: 1px;
+            background: #e5e7eb;
+            margin: 8px 0;
+        }
+        .dropdown-item {
+            width: 100%;
+            border: 0;
+            background: transparent;
+            text-align: left;
+            padding: 10px 12px;
+            color: #334155;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            font-size: 0.86rem;
+        }
+        .dropdown-item:hover {
+            background: #f8fafc;
+        }
+        .logout-btn {
+            color: #dc2626;
+        }
+        .logs-container {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        .log-entry {
+            transition: all 0.2s ease;
+        }
+        .log-entry:hover {
+            background-color: rgba(59, 130, 246, 0.05);
+        }
+        table tbody tr {
+            border-bottom: 1px solid #e5e7eb;
+        }
+        table tbody tr:hover {
+            background-color: #f9fafb;
+        }
+        table tbody td {
+            padding: 12px 16px;
+            text-align: left;
+            font-size: 0.875rem;
+            color: #374151;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+        .timestamp-cell {
+            font-family: monospace;
+            font-size: 0.75rem;
+            color: #6b7280;
+        }
+        .activity-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 500;
+            font-size: 0.75rem;
+        }
+        .activity-login {
+            background-color: #dbeafe;
+            color: #1e40af;
+        }
+        .activity-logout {
+            background-color: #dcfce7;
+            color: #166534;
+        }
+        .activity-access {
+            background-color: #f3e8ff;
+            color: #6b21a8;
+        }
+        .activity-verification {
+            background-color: #fed7aa;
+            color: #92400e;
+        }
+        table tbody td.activity-col {
+            text-align: center;
+        }
+        table tbody td.ip-col {
+            text-align: center;
+            font-size: 0.75rem;
+            font-family: monospace;
+        }
+        table tbody td.tabid-col {
+            text-align: center;
+            font-size: 0.75rem;
+            font-family: monospace;
+        }
+        @media (max-width: 768px) {
+            .header {
+                padding: 12px 14px;
+            }
+            .header-right {
+                gap: 8px;
+            }
+            .profile-dropdown {
+                width: min(92vw, 300px);
+            }
+        }
+        @media (max-width: 640px) {
+            table {
+                min-width: 880px;
+            }
+        }
+        @media (max-width: 540px) {
+            .log-text {
+                display: none;
+            }
+            .user-log-header {
+                flex: 0 0 auto;
+                padding: 8px 10px;
+            }
+            .logo-image {
+                width: 44px;
+                height: 44px;
+            }
+            .header-text h1 {
+                font-size: 1.06rem;
+            }
+            .user-profile {
+                min-width: 148px;
+                padding: 7px 8px;
+            }
+            .profile-name {
+                max-width: 72px;
+            }
+            .header-text p {
+                font-size: 0.72rem;
+            }
+        }
+        
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="min-h-screen flex flex-col">
+        <header class="header">
+            <div class="header-left">
+                <div class="logo-section">
+                    <img src="https://mausam.imd.gov.in/responsive/img/logo/imd_logo_a.png" alt="MWO Logo" class="logo-image">
+                    <div class="header-text">
+                        <h1>MWO Mumbai</h1>
+                        <p id="headerRoleSub">ADMIN DASHBOARD</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="header-right">
+                <button class="user-log-header" id="backBtn" title="Back to dashboard">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px;">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                    <span class="log-text">Back</span>
+                </button>
+
+                <div class="user-profile-wrapper">
+                    <div class="user-profile" id="profileBtn">
+                        <div class="profile-avatar" id="profileAvatar">A</div>
+                        <div class="profile-info">
+                            <span class="profile-name" id="profileName">Admin</span>
+                            <span class="profile-role" id="profileRole">Admin</span>
+                        </div>
+                        <span class="dropdown-icon" aria-hidden="true">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <polyline points="6 9 12 15 18 9"></polyline>
+                            </svg>
+                        </span>
+                    </div>
+                    <div class="profile-dropdown hidden" id="profileDropdown">
+                        <div class="dropdown-header">
+                            <div class="dropdown-avatar" id="dropdownAvatar">A</div>
+                            <div class="dropdown-info">
+                                <p class="dropdown-name" id="dropdownName">Admin</p>
+                                <p class="dropdown-role" id="dropdownRole">Admin Account</p>
+                            </div>
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        <button class="dropdown-item logout-btn" id="logoutBtn">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                                <polyline points="16 17 21 12 16 7"></polyline>
+                                <line x1="21" y1="12" x2="9" y2="12"></line>
+                            </svg>
+                            <span>Logout</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 w-full">
+            <!-- Statistics Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+                <div class="bg-white rounded-lg shadow p-6">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-600 text-sm font-medium">Total Logins</p>
+                            <p id="stat-logins" class="text-3xl font-bold text-gray-900 mt-2">-</p>
+                        </div>
+                        <div class="text-3xl text-blue-500"></div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-lg shadow p-6">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-600 text-sm font-medium">Total Logouts</p>
+                            <p id="stat-logouts" class="text-3xl font-bold text-gray-900 mt-2">-</p>
+                        </div>
+                        <div class="text-3xl text-green-500"></div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-lg shadow p-6">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-600 text-sm font-medium">Unique Users</p>
+                            <p id="stat-users" class="text-3xl font-bold text-gray-900 mt-2">-</p>
+                        </div>
+                        <div class="text-3xl text-purple-500"></div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-lg shadow p-6">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-600 text-sm font-medium">Active (24h)</p>
+                            <p id="stat-active" class="text-3xl font-bold text-gray-900 mt-2">-</p>
+                        </div>
+                        <div class="text-3xl text-orange-500"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filters Section -->
+            <div class="bg-white rounded-lg shadow mb-8 p-6">
+                <h2 class="text-lg font-semibold text-gray-900 mb-4">Filters & Search</h2>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <div id="userFilterDiv" style="display:none;">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Select User (Super Admin)</label>
+                        <select id="userFilter" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" onchange="filterLogs()">
+                            <option value="">All Users</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Activity Type</label>
+                        <select id="activityTypeFilter" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" onchange="filterLogs()">
+                            <option value="">All Activities</option>
+                            <option value="login">Login</option>
+                            <option value="logout">Logout</option>
+                            <option value="access">Page Access</option>
+                            <option value="verification">Verification</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Username</label>
+                        <input type="text" id="usernameFilter" placeholder="Search by username" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" onkeyup="filterLogs()">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Per Page</label>
+                        <select id="perPageSelect" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" onchange="loadLogs()">
+                            <option value="20">20 entries</option>
+                            <option value="50" selected>50 entries</option>
+                            <option value="100">100 entries</option>
+                            <option value="200">200 entries</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="flex flex-wrap gap-3 mt-4">
+                    <button onclick="filterLogs()" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 text-sm font-medium w-full sm:w-auto">
+                        Apply Filters
+                    </button>
+                    <button onclick="clearFilters()" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 text-sm font-medium w-full sm:w-auto">
+                        Clear Filters
+                    </button>
+                    <button onclick="exportLogs()" class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 text-sm font-medium w-full sm:w-auto">
+                        Export to CSV
+                    </button>
+                </div>
+            </div>
+
+            <!-- Logs Table -->
+            <div class="bg-white rounded-lg shadow">
+                <div class="px-6 py-4 border-b border-gray-200">
+                    <h2 class="text-lg font-semibold text-gray-900">Activity Logs</h2>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full table-fixed">
+                        <thead>
+                            <tr class="border-b border-gray-200 bg-gray-50">
+                                <th class="px-4 py-3 text-center text-xs font-medium text-gray-700 uppercase w-40">Timestamp (IST)</th>
+                                <th class="px-4 py-3 text-center text-xs font-medium text-gray-700 uppercase w-28">User</th>
+                                <th class="px-4 py-3 text-center text-xs font-medium text-gray-700 uppercase w-34">Activity</th>
+                                <th class="px-4 py-3 text-center text-xs font-medium text-gray-700 uppercase w-32">Page/Route</th>
+                                <th class="px-4 py-3 text-center text-xs font-medium text-gray-700 uppercase flex-1 min-w-40">Details</th>
+                                <th class="px-4 py-3 text-center text-xs font-medium text-gray-700 uppercase w-32">IP Address</th>
+                                <!-- <th class="px-4 py-3 text-center text-xs font-medium text-gray-700 uppercase w-32">Tab ID</th> -->
+                            </tr>
+                        </thead>
+                        <tbody id="logsTableBody">
+                            <tr>
+                                <td colspan="6" class="px-6 py-4 text-center text-gray-500">Loading logs...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination -->
+                <div class="px-6 py-4 border-t border-gray-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                    <div>
+                        <p id="logsInfo" class="text-sm text-gray-600">Loading...</p>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <button onclick="previousPage()" class="px-3 py-1 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50">
+                            Previous
+                        </button>
+                        <div id="pageNumbers" class="flex flex-wrap gap-1"></div>
+                        <button onclick="nextPage()" class="px-3 py-1 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50">
+                            Next
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Super Admin Only - Clear Logs Button -->
+            <div id="superAdminSection" class="mt-8 hidden">
+                <div class="bg-white rounded-lg shadow p-6 border-2 border-red-200">
+                    <p class="text-gray-700 mb-4">Permanently delete all activity logs</p>
+                    <button onclick="clearAllLogs()" class="px-6 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 font-medium">
+                        Clear All Logs
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="bg-gray-800 text-gray-300 py-6 w-full mt-auto">
+        <div class="container mx-auto px-4 max-w-7xl text-center">
+            <p>© 2025 Forecast verification Dashboard. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="/js/admin_logs.js"></script>
+</body>
+</html>

@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MWO Mumbai -Super Admin Dashboard</title>
+  <script src="/js/tailwind.js"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <script src="/js/auth.js"></script>
+  <script src="/js/superadmin.js" defer></script>
+  <style>
+    .header {
+      background: #ffffff;
+      border-bottom: 1px solid #e5e7eb;
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: nowrap;
+    }
+    .header-left {
+      min-width: 0;
+      flex: 1 1 auto;
+    }
+    .logo-section {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .logo-image {
+      width: 52px;
+      height: 52px;
+      object-fit: contain;
+    }
+    .header-text h1 {
+      margin: 0;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #1d4ed8;
+      line-height: 1.2;
+    }
+    .header-text p {
+      margin: 2px 0 0;
+      font-size: 0.82rem;
+      color: #475569;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-left: auto;
+      flex-wrap: nowrap;
+      justify-content: flex-end;
+      flex: 0 0 auto;
+    }
+    .user-log-header {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 12px;
+      border-radius: 10px;
+      border: 1px solid #dcfce7;
+      background: #f0fdf4;
+      color: #166534;
+      font-weight: 600;
+      font-size: 0.88rem;
+      transition: all 0.2s ease;
+    }
+    .user-log-header:hover {
+      background: #dcfce7;
+    }
+    .user-profile-wrapper {
+      position: relative;
+    }
+    .user-profile {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid #e5e7eb;
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 8px 10px;
+      cursor: pointer;
+      min-width: 176px;
+    }
+    .profile-avatar,
+    .dropdown-avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 9999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: #ffffff;
+      background: #dc2626;
+    }
+    .profile-info {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.1;
+      min-width: 0;
+    }
+    .profile-name {
+      font-size: 0.86rem;
+      font-weight: 700;
+      color: #1f2937;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 98px;
+    }
+    .profile-role {
+      font-size: 0.72rem;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      font-weight: 600;
+    }
+    .dropdown-icon {
+      color: #64748b;
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+    }
+    .profile-dropdown {
+      position: absolute;
+      right: 0;
+      top: calc(100% + 8px);
+      width: 240px;
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      box-shadow: 0 12px 28px rgba(2, 8, 23, 0.12);
+      z-index: 50;
+      padding: 8px 0;
+    }
+    .dropdown-header {
+      padding: 8px 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .dropdown-name {
+      margin: 0;
+      color: #111827;
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+    .dropdown-role {
+      margin: 2px 0 0;
+      color: #64748b;
+      font-size: 0.76rem;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      font-weight: 600;
+    }
+    .dropdown-divider {
+      height: 1px;
+      background: #e5e7eb;
+      margin: 8px 0;
+    }
+    .dropdown-item {
+      width: 100%;
+      border: 0;
+      background: transparent;
+      text-align: left;
+      padding: 10px 12px;
+      color: #334155;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+      font-size: 0.86rem;
+    }
+    .dropdown-item:hover {
+      background: #f8fafc;
+    }
+    .logout-btn {
+      color: #dc2626;
+    }
+    @media (max-width: 768px) {
+      .header {
+        padding: 12px 14px;
+      }
+      .header-right {
+        gap: 8px;
+      }
+      .profile-dropdown {
+        width: min(92vw, 300px);
+      }
+    }
+    @media (max-width: 540px) {
+      .log-text {
+        display: none;
+      }
+      .user-log-header {
+        flex: 0 0 auto;
+        padding: 8px 10px;
+      }
+      .logo-image {
+        width: 44px;
+        height: 44px;
+      }
+      .header-text h1 {
+        font-size: 1.06rem;
+      }
+      .header-text p {
+        font-size: 0.72rem;
+      }
+      .user-profile {
+        min-width: 148px;
+        padding: 7px 8px;
+      }
+      .profile-name {
+        max-width: 72px;
+      }
+    }
+
+    /* Redesigned Verification Parameters CSS */
+    .verification-grid {
+      display: grid;
+      gap: 1.5rem;
+      align-items: start;
+    }
+    @media (min-width: 1400px) {
+      .verification-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+    @media (min-width: 768px) and (max-width: 1399px) {
+      .verification-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+    @media (max-width: 767px) {
+      .verification-grid {
+        grid-template-columns: repeat(1, minmax(0, 1fr));
+      }
+    }
+    
+    .verification-section-card {
+      height: 660px;
+      background-color: #ffffff;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .verification-scroll-container::-webkit-scrollbar {
+      width: 6px;
+    }
+    .verification-scroll-container::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .verification-scroll-container::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+    .verification-scroll-container::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+  </style>
+</head>
+
+<body class="bg-gray-100 min-h-screen flex flex-col">
+
+<header class="header">
+  <div class="header-left">
+    <div class="logo-section">
+      <img src="https://mausam.imd.gov.in/responsive/img/logo/imd_logo_a.png" alt="MWO Logo" class="logo-image">
+      <div class="header-text">
+        <h1>MWO Mumbai</h1>
+        <p>Super Admin Dashboard</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="header-right">
+    <button class="user-log-header" id="headerLogsBtn" title="View user logs" onclick="window.location.href='/admin_logs.html'">
+      <svg class="log-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+        <polyline points="14 2 14 8 20 8"></polyline>
+        <line x1="16" y1="13" x2="8" y2="13"></line>
+        <line x1="16" y1="17" x2="8" y2="17"></line>
+        <polyline points="10 9 9 9 8 9"></polyline>
+      </svg>
+      <span class="log-text">User Logs</span>
+    </button>
+
+    <div class="user-profile-wrapper">
+      <div class="user-profile" id="profileToggle">
+        <div id="userAvatar" class="profile-avatar">S</div>
+        <div class="profile-info">
+          <span id="userInfo" class="profile-name">Super Admin</span>
+          <span class="profile-role">Super Admin</span>
+        </div>
+        <span class="dropdown-icon" aria-hidden="true">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </span>
+      </div>
+
+      <div class="profile-dropdown hidden" id="profileDropdown">
+        <div class="dropdown-header">
+          <div id="dropdownAvatar" class="dropdown-avatar">S</div>
+          <div class="dropdown-info">
+            <p id="userInfoDropdown" class="dropdown-name">Super Admin</p>
+            <p class="dropdown-role">Super Admin Account</p>
+          </div>
+        </div>
+        <div class="dropdown-divider"></div>
+        <button class="dropdown-item logout-btn" id="profileLogout">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+            <polyline points="16 17 21 12 16 7"></polyline>
+            <line x1="21" y1="12" x2="9" y2="12"></line>
+          </svg>
+          <span>Logout</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="p-4 sm:p-6 max-w-7xl mx-auto w-full space-y-6 flex-1">
+  <div class="bg-white rounded-lg shadow-md p-2 sm:p-3 flex flex-wrap gap-2">
+    <button type="button" data-tab-target="userManagementTab" class="verification-tab-btn bg-blue-600 text-white px-4 py-2 rounded-md text-sm font-semibold">User Management</button>
+    <button type="button" data-tab-target="verificationParametersTab" class="verification-tab-btn bg-gray-100 text-gray-700 hover:bg-gray-200 px-4 py-2 rounded-md text-sm font-semibold">Verification Parameters</button>
+  </div>
+
+  <div id="userManagementTab" data-tab-panel class="space-y-6">
+    <div class="bg-white rounded-lg shadow-md p-6">
+      <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 mb-4">
+        <h2 class="text-xl font-semibold text-gray-800">Admins</h2>
+        <div class="flex flex-wrap gap-3">
+          <!-- <a href="/admin_logs.html" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-md text-sm font-medium flex items-center justify-center gap-2">
+            <i class="fas fa-clipboard-list"></i>View Logs
+          </a> -->
+          <button id="addAdminBtn" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm font-medium flex items-center justify-center gap-2">
+            <i class="fas fa-plus"></i>Add Admin
+          </button>
+        </div>
+      </div>
+      <div id="adminList" class="space-y-3">
+        <div class="flex items-center justify-center py-8">
+          <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-green-600 mr-2"></div>
+          <p class="text-gray-500">Loading admins...</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-lg shadow-md p-6">
+      <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 mb-4">
+        <h2 class="text-xl font-semibold text-gray-800">Users</h2>
+        <button id="addUserBtn" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium flex items-center justify-center gap-2 w-full sm:w-auto">
+          <i class="fas fa-plus"></i>Add User
+        </button>
+      </div>
+      <div id="userList" class="space-y-3">
+        <div class="flex items-center justify-center py-8">
+          <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600 mr-2"></div>
+          <p class="text-gray-500">Loading users...</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="verificationParametersTab" data-tab-panel class="hidden space-y-6">
+
+    <!-- 3-Column Responsive Grid -->
+    <div class="verification-grid">
+      <!-- Left Column: Take-Off Forecast -->
+      <div class="verification-section-card">
+        <div class="p-5 border-b border-gray-100 flex-shrink-0 bg-white">
+          <h3 class="text-lg font-bold text-gray-800">Take-Off Forecast</h3>
+          <p class="text-xs text-gray-500 mt-1 leading-normal">Wind, temperature and QNH checks for take-off verification.</p>
+        </div>
+        <div id="verificationParams-takeoff" class="flex-1 overflow-y-auto p-5 pb-24 space-y-4 verification-scroll-container bg-white">
+          <!-- Dynamic parameter cards render here -->
+        </div>
+        <div class="absolute bottom-0 left-0 right-0 p-4 bg-gray-50 border-t border-gray-100 flex justify-end items-center rounded-b-xl">
+          <button type="button" onclick="saveVerificationParams('takeoff')" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-lg text-sm font-semibold shadow-sm hover:shadow transition-all duration-200">
+            Save Take-Off Parameters
+          </button>
+        </div>
+      </div>
+
+      <!-- Center Column: Local Area Forecast -->
+      <div class="verification-section-card">
+        <div class="p-5 border-b border-gray-100 flex-shrink-0 bg-white">
+          <h3 class="text-lg font-bold text-gray-800">Local Area Forecast</h3>
+          <p class="text-xs text-gray-500 mt-1 leading-normal">Upper-air comparison thresholds for temperature, wind speed and direction.</p>
+        </div>
+        <div id="verificationParams-local_area" class="flex-1 overflow-y-auto p-5 pb-24 space-y-4 verification-scroll-container bg-white">
+          <!-- Dynamic parameter cards render here -->
+        </div>
+        <div class="absolute bottom-0 left-0 right-0 p-4 bg-gray-50 border-t border-gray-100 flex justify-end items-center rounded-b-xl">
+          <button type="button" onclick="saveVerificationParams('local_area')" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-lg text-sm font-semibold shadow-sm hover:shadow transition-all duration-200">
+            Save Local Area Parameters
+          </button>
+        </div>
+      </div>
+
+      <!-- Right Column: Aerodrome Warning -->
+      <div class="verification-section-card">
+        <div class="p-5 border-b border-gray-100 flex-shrink-0 bg-white">
+          <h3 class="text-lg font-bold text-gray-800">Aerodrome Warning</h3>
+          <p class="text-xs text-gray-500 mt-1 leading-normal">Surface wind and gust verification uses one shared direction tolerance.</p>
+        </div>
+        <div id="verificationParams-aerodrome" class="flex-1 overflow-y-auto p-5 pb-24 space-y-4 verification-scroll-container bg-white">
+          <!-- Dynamic parameter cards render here -->
+        </div>
+        <div class="absolute bottom-0 left-0 right-0 p-4 bg-gray-50 border-t border-gray-100 flex justify-end items-center rounded-b-xl">
+          <button type="button" onclick="saveVerificationParams('aerodrome')" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-lg text-sm font-semibold shadow-sm hover:shadow transition-all duration-200">
+            Save Aerodrome Parameters
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Admin Modal -->
+  <div id="addAdminModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-40 flex items-center justify-center p-4">
+    <div class="bg-white rounded-lg p-6 max-w-md w-full shadow-xl">
+      <h3 class="text-lg font-bold mb-4">Add New Admin</h3>
+      <form id="addAdminForm" class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Username</label>
+          <input type="text" id="newAdminUsername" placeholder="Username" class="w-full border border-gray-300 px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500" required>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Station Code (optional)</label>
+          <input type="text" id="newAdminStation" placeholder="Station code (e.g. VABB)" class="w-full border border-gray-300 px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 uppercase">
+        </div>
+
+        <div class="flex gap-2 justify-end pt-2">
+          <button type="button" id="closeAddAdminModal" class="px-4 py-2 text-gray-700 border border-gray-300 rounded-md hover:bg-gray-100 font-medium">Cancel</button>
+          <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 font-medium">Create</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Add User Modal -->
+  <div id="addUserModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-40 flex items-center justify-center p-4">
+    <div class="bg-white rounded-lg p-6 max-w-md w-full shadow-xl">
+      <h3 class="text-lg font-bold mb-4">Add New User</h3>
+      <form id="addUserForm" class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Username</label>
+          <input type="text" id="newUsername" placeholder="Username" class="w-full border border-gray-300 px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Station Code (optional)</label>
+          <input type="text" id="newUserStation" placeholder="Station code (e.g. VABB)" class="w-full border border-gray-300 px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase">
+        </div>
+
+        <div class="flex gap-2 justify-end pt-2">
+          <button type="button" id="closeAddUserModal" class="px-4 py-2 text-gray-700 border border-gray-300 rounded-md hover:bg-gray-100 font-medium">Cancel</button>
+          <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 font-medium">Create</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="alertBox" class="hidden fixed top-4 right-4 p-4 rounded-md shadow-md text-white max-w-sm z-50"></div>
+</main>
+<footer class="bg-gray-800 text-gray-300 py-6 w-full mt-auto">
+        <div class="container mx-auto px-4 max-w-7xl text-center">
+            <p>© 2025 Forecast verification Dashboard. All rights reserved.</p>
+        </div>
+    </footer>
+
+<script>
+  if (window.authManager && window.authManager.ready) {
+    window.authManager.ready.then(() => {
+      authManager.requireRole('super_admin');
+
+      // Populate profile UI
+      if (authManager.user) {
+        document.getElementById('userAvatar').textContent = authManager.user.username.charAt(0).toUpperCase();
+        document.getElementById('dropdownAvatar').textContent = authManager.user.username.charAt(0).toUpperCase();
+        document.getElementById('userInfo').textContent = authManager.user.username;
+        document.getElementById('userInfoDropdown').textContent = authManager.user.username;
+      }
+
+      // Profile menu toggle
+      document.getElementById('profileToggle')?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const dd = document.getElementById('profileDropdown');
+        dd.classList.toggle('hidden');
+      });
+
+      document.addEventListener('click', () => {
+        const dd = document.getElementById('profileDropdown');
+        if (dd && !dd.classList.contains('hidden')) dd.classList.add('hidden');
+      });
+
+      document.getElementById('profileLogout')?.addEventListener('click', async () => {
+        await authManager.logout();
+      });
+
+      // Modal controls and handlers
+      document.getElementById('addAdminBtn')?.addEventListener('click', () => {
+        document.getElementById('addAdminModal').classList.remove('hidden');
+      });
+      document.getElementById('closeAddAdminModal')?.addEventListener('click', () => {
+        document.getElementById('addAdminModal').classList.add('hidden');
+      });
+      document.getElementById('addUserBtn')?.addEventListener('click', () => {
+        document.getElementById('addUserModal').classList.remove('hidden');
+      });
+      document.getElementById('closeAddUserModal')?.addEventListener('click', () => {
+        document.getElementById('addUserModal').classList.add('hidden');
+      });
+
+      // Add admin form
+      document.getElementById('addAdminForm')?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const username = document.getElementById('newAdminUsername').value.trim();
+        const station = (document.getElementById('newAdminStation').value || '').trim().toUpperCase();
+
+        try {
+          const res = await fetch('/auth/create-admin', {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, station_code: station })
+          });
+          const data = await res.json();
+          if (res.ok) {
+            showAlert('Admin created successfully! Default password: ' + (data.default_password || 'username@123'), 'success');
+            document.getElementById('addAdminModal').classList.add('hidden');
+            if (window.loadAdmins) loadAdmins();
+          } else {
+            showAlert(data.error || 'Failed to create admin', 'error');
+          }
+        } catch (err) {
+          showAlert('Network error', 'error');
+        }
+      });
+
+      // Add user form
+      document.getElementById('addUserForm')?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const username = document.getElementById('newUsername').value.trim();
+        const station = (document.getElementById('newUserStation').value || '').trim().toUpperCase();
+
+        try {
+          const res = await fetch('/auth/create-user', {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, station_code: station })
+          });
+          const data = await res.json();
+          if (res.ok) {
+            showAlert('User created successfully! Default password: ' + (data.default_password || 'username@123'), 'success');
+            document.getElementById('addUserModal').classList.add('hidden');
+            if (window.loadUsers) loadUsers();
+          } else {
+            showAlert(data.error || 'Failed to create user', 'error');
+          }
+        } catch (err) {
+          showAlert('Network error', 'error');
+        }
+      });
+
+    }).catch(() => {
+      // authManager handled redirect
+    });
+  } else {
+    try { authManager.requireRole('super_admin'); } catch {}
+  }
+
+  function showAlert(message, type) {
+    const alertBox = document.getElementById('alertBox');
+    if (alertBox) {
+      alertBox.textContent = message;
+      alertBox.className = `${type === 'success' ? 'bg-green-500' : 'bg-red-500'} fixed top-4 right-4 p-4 rounded-md shadow-md text-white max-w-sm z-50`;
+      alertBox.classList.remove('hidden');
+      setTimeout(() => alertBox.classList.add('hidden'), 3000);
+    }
+  }
+</script>
+</body>
+</html>
