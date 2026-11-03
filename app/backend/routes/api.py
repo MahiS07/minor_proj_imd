@@ -10,6 +10,9 @@ from app.backend.utils.AD_warn import parse_warning_file
 from app.backend.utils.generate_warning_report import generate_warning_report, generate_aerodrome_warnings_table
 from app.backend.utils.extract_metar_features import extract_metar_features
 from app.backend.utils.validation import validate_files,extract_icao_from_warning
+from app.backend.utils.adwrn_ml import predict as predict_adwrn
+from pathlib import Path
+import json
 from app.backend.config import METAR_DATA_DIR, UPPER_AIR_DATA_DIR, DOCKER_VOLUME_MOUNT_POINT, AD_WARN_DIR
 import pandas as pd
 import numpy as np
@@ -27,6 +30,71 @@ from io import StringIO
  
 
 api_bp = Blueprint('api', __name__, url_prefix='/api')
+
+
+@api_bp.route('/adwrn/prediction', methods=['POST'])
+def adwrn_prediction():
+    """Forecast using the saved experimental hazard model."""
+    payload = request.get_json(silent=True) or {}
+    station_code = str(payload.get('station', '')).strip().upper()
+    issue = str(payload.get('issue', ''))
+    try:
+        observation_lookback = int(payload.get('observation_lookback_minutes', 60))
+    except (TypeError, ValueError):
+        return jsonify({'error': 'Observation lookback must be minutes.'}), 400
+    if not re.fullmatch(r'[A-Z]{4}', station_code):
+        return jsonify({'error': 'A valid four-character ICAO station is required.'}), 400
+    try:
+        datetime.strptime(issue, '%Y%m%d%H%M')
+    except ValueError:
+        return jsonify({'error': 'Issue time must use UTC YYYYMMDDHHMM.'}), 400
+    result = predict_adwrn(station_code, issue, '', '', observation_lookback)
+    if result.get('status') == 'setup_required':
+        issue_dt = datetime.strptime(issue, '%Y%m%d%H%M')
+        history_start = '2024-01-01'
+        history_end = '2025-12-31'
+        training = predict_adwrn(
+            station_code, issue, history_start, history_end,
+            observation_lookback, refresh=True
+        )
+        if training.get('status') == 'ok':
+            result = predict_adwrn(station_code, issue, '', '', observation_lookback)
+        else:
+            result = training
+    if result.get('status') == 'ok':
+        issue_dt = datetime.strptime(issue, '%Y%m%d%H%M')
+        preamble = (
+            f"AI-GENERATED AERODROME WARNING OUTLOOK\n"
+            f"{station_code} — {issue_dt.strftime('%B %Y').upper()}\n\n"
+            f"LIGHT AIRCRAFT WARNING FOR {station_code} - {issue_dt:%Y%m%d %H}\n\n---"
+        )
+        result['outlook'] = preamble + '\n\n' + (
+            '\n\n'.join(result['warnings']) if result['warnings'] else result['message']
+        )
+    return jsonify(result)
+
+
+@api_bp.route('/adwrn/refresh', methods=['POST'])
+def adwrn_refresh():
+    payload = request.get_json(silent=True) or {}
+    station = str(payload.get('station', '')).strip().upper()
+    issue = str(payload.get('issue', ''))
+    try:
+        datetime.strptime(issue, '%Y%m%d%H%M')
+        result = predict_adwrn(station, issue, str(payload.get('history_start', '')), str(payload.get('history_end', '')), 60, refresh=True)
+    except ValueError:
+        return jsonify({'error': 'Provide an issue time and ordered UTC history dates.'}), 400
+    return jsonify(result), (200 if result.get('status') == 'ok' else 400)
+
+
+@api_bp.route('/adwrn/model-status', methods=['GET'])
+def adwrn_model_status():
+    path = Path(AD_WARN_DIR) / 'adwrn_ml_setup.json'
+    try:
+        setup = json.loads(path.read_text(encoding='utf-8'))
+        return jsonify({'available': bool(setup.get('models')), 'record_count': len(setup.get('records', [])), 'history_start': setup.get('history_start'), 'history_end': setup.get('history_end')})
+    except (OSError, ValueError):
+        return jsonify({'available': False, 'message': 'Historical data will be collected and the model trained automatically when you generate a forecast.'})
 
 METAR_UPLOADS_DIR = os.path.join(METAR_DATA_DIR, 'uploads')
 METAR_DOWNLOADS_DIR = os.path.join(METAR_DATA_DIR, 'downloads')

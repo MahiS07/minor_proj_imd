@@ -1189,7 +1189,14 @@ document.addEventListener("DOMContentLoaded", async () => {
                             <input id="adwrn-forecast-time" type="time" class="w-full border border-gray-300 rounded-md p-2" required>
                         </div>
                     </div>
-                    <div class="text-center mt-5">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                        <div>
+                            <label for="adwrn-observation-lookback" class="block text-sm font-medium text-gray-700 mb-1">Observation Search Lookback (minutes, forecast accepts up to 30)</label>
+                            <input id="adwrn-observation-lookback" type="number" min="30" max="180" step="5" value="60" class="w-full border border-gray-300 rounded-md p-2" required>
+                        </div>
+                    </div>
+                    <p id="adwrn-history-status" class="mt-4 text-sm text-gray-600">Checking saved historical data and model…</p>
+                    <div class="text-center mt-5 flex flex-wrap gap-3 justify-center">
                         <button type="button" onclick="window.generateAdwrnForecast(event)" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 px-10 rounded-md shadow-md transition duration-200">Generate Forecast</button>
                     </div>
                 </form>
@@ -1197,25 +1204,12 @@ document.addEventListener("DOMContentLoaded", async () => {
                     <div class="bg-blue-50 border border-blue-200 rounded-md p-4 text-blue-800">
                         <p class="text-sm font-semibold uppercase tracking-wide">Experimental AI-Based Prediction — Not an Official IMD Warning</p>
                         <p class="mt-2"><span class="font-semibold">Prediction Window:</span> <span id="adwrn-prediction-window"></span></p>
-                        <p class="mt-1 text-2xl font-bold">Overall Prediction Confidence: 80%</p>
+                        <p id="adwrn-model-status" class="mt-1"></p>
                     </div>
                     <div class="bg-white rounded-lg shadow-md p-6">
                         <h2 class="text-xl font-semibold mb-4 text-gray-700">AI-Based Aerodrome Warning Prediction</h2>
                         <pre id="adwrn-prediction-text" class="bg-gray-50 border border-gray-200 rounded-md p-4 font-mono text-sm whitespace-pre-wrap overflow-x-auto"></pre>
-                        <div class="overflow-x-auto mt-5">
-                            <table class="w-full text-sm text-left text-gray-700">
-                                <thead class="text-xs uppercase bg-gray-100 text-gray-700"><tr><th class="px-4 py-3">Parameter</th><th class="px-4 py-3">Predicted Value</th><th class="px-4 py-3">Likelihood</th></tr></thead>
-                                <tbody class="divide-y divide-gray-200">
-                                    <tr><td class="px-4 py-3">Thunderstorm / TSRA</td><td class="px-4 py-3">YES</td><td class="px-4 py-3">82%</td></tr>
-                                    <tr><td class="px-4 py-3">Intensity</td><td class="px-4 py-3">MOD</td><td class="px-4 py-3">76%</td></tr>
-                                    <tr><td class="px-4 py-3">Surface Wind</td><td class="px-4 py-3">19 KT</td><td class="px-4 py-3">81%</td></tr>
-                                    <tr><td class="px-4 py-3">Maximum Gust</td><td class="px-4 py-3">34 KT</td><td class="px-4 py-3">74%</td></tr>
-                                    <tr><td class="px-4 py-3">Wind Direction</td><td class="px-4 py-3">WSW</td><td class="px-4 py-3">79%</td></tr>
-                                </tbody>
-                            </table>
-                        </div>
                     </div>
-                    <p class="text-sm text-gray-500">Experimental AI-based sample only. This is not an official IMD warning.</p>
                 </div>
             </section>
         </div>

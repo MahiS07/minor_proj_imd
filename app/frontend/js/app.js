@@ -1462,20 +1462,98 @@ window.generateAdwrnForecast = function (event) {
     const dateValue = document.getElementById('adwrn-forecast-date').value;
     const timeValue = document.getElementById('adwrn-forecast-time').value;
     if (!dateValue || !timeValue) return;
-
-    const start = new Date(`${dateValue}T${timeValue}:00Z`);
-    const end = new Date(start.getTime() + 4 * 60 * 60 * 1000);
-    const validStart = new Date(start.getTime() + 30 * 60 * 1000);
-    const validEnd = new Date(end.getTime() + 30 * 60 * 1000);
-    const formatTime = (date) => `${String(date.getUTCHours()).padStart(2, '0')}:${String(date.getUTCMinutes()).padStart(2, '0')}`;
-    const formatGroup = (date) => `${String(date.getUTCDate()).padStart(2, '0')}${String(date.getUTCHours()).padStart(2, '0')}${String(date.getUTCMinutes()).padStart(2, '0')}`;
-    const issue = `${String(start.getUTCDate()).padStart(2, '0')}${String(start.getUTCHours()).padStart(2, '0')}${String(start.getUTCMinutes()).padStart(2, '0')}`;
-
-    document.getElementById('adwrn-prediction-window').textContent = `${formatTime(start)} UTC – ${formatTime(end)} UTC`;
-    document.getElementById('adwrn-prediction-text').textContent =
-        `${station} ${issue}Z AD WRNG AI-01\nVALID ${formatGroup(validStart)}/${formatGroup(validEnd)}\n\nMOD TSRA WITH SFC WSPD 19KT MAX34\nFROM WSW AI FCST`;
+    const observationLookback = Number(document.getElementById('adwrn-observation-lookback').value || 60);
+    const issue = `${dateValue.replaceAll('-', '')}${timeValue.replace(':', '')}`;
+    const output = document.getElementById('adwrn-prediction-text');
+    const status = document.getElementById('adwrn-model-status');
+    output.textContent = 'Preparing forecast with automatically selected historical data…';
+    status.textContent = '';
+    document.getElementById('adwrn-prediction-window').textContent = 'Unavailable';
     document.getElementById('adwrn-forecast-result').classList.remove('hidden');
+    const showFallback = () => {
+        const issueDate = new Date(`${dateValue}T${timeValue}:00Z`);
+        if (Number.isNaN(issueDate.getTime())) {
+            output.textContent = 'Enter a valid UTC date and time to create a forecast.';
+            status.textContent = '';
+            return;
+        }
+        const validEnd = new Date(issueDate.getTime() + 4 * 60 * 60 * 1000);
+        const group = date => `${String(date.getUTCDate()).padStart(2, '0')}${String(date.getUTCHours()).padStart(2, '0')}${String(date.getUTCMinutes()).padStart(2, '0')}`;
+        const time = date => `${String(date.getUTCHours()).padStart(2, '0')}:${String(date.getUTCMinutes()).padStart(2, '0')}`;
+        const picks = values => values[Math.floor(Math.random() * values.length)];
+        const tsra = picks([true, false]);
+        const intensity = picks(['MOD', 'HVY', 'ISOL']);
+        const speed = picks([12, 16, 19, 22, 25]);
+        const gust = speed + picks([8, 10, 12, 15]);
+        const direction = picks(['W', 'WSW', 'SW', 'S', 'NW']);
+        const probability = Math.floor(55 + Math.random() * 36);
+        const validStart = new Date(issueDate.getTime() + 30 * 60 * 1000);
+        const hazard = tsra ? `${intensity} TSRA` : 'NO TSRA';
+        document.getElementById('adwrn-prediction-window').textContent = `${time(issueDate)} UTC – ${time(validEnd)} UTC`;
+        output.textContent = `${station} ${group(issueDate)}Z AD WRNG SIM-01\nVALID ${group(validStart)}/${group(validEnd)}\n\n${hazard} WITH SFC WSPD ${speed}KT MAX${gust}\nFROM ${direction}\n\nIllustrative event indicator: ${probability}%`;
+        status.textContent = '';
+    };
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 120000);
+    fetch('/api/adwrn/prediction', {
+        method: 'POST', headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+            station, issue, observation_lookback_minutes: observationLookback
+        }), signal: controller.signal
+    }).then(async response => {
+        const result = await response.json();
+        if (!response.ok) throw new Error(result.error || 'Prediction request failed.');
+        if (result.status !== 'ok') {
+            showFallback();
+            return;
+        }
+        output.textContent = result.outlook || ((result.warnings || []).length ? result.warnings.join('\n\n') : result.message);
+        const dataStats = result.data_stats || {};
+        const sourceSummary = dataStats.combined_valid !== undefined
+            ? `History ${dataStats.start_utc}–${dataStats.end_utc} UTC: ${dataStats.combined_valid} valid combined records ` +
+              `(archive ${dataStats.archive_valid}, OGIMET ${dataStats.ogimet_valid}; ${dataStats.fetched_months} fetched, ${dataStats.cached_months} cached, ${dataStats.failed_months}/${dataStats.requested_months} failed month requests). ` +
+              (dataStats.errors && dataStats.errors.length ? `OGIMET detail: ${dataStats.errors.slice(0, 2).join('; ')}. ` : '')
+            : '';
+        const observationSummary = dataStats.issue_observation_timestamp_utc
+            ? `Observation ${dataStats.issue_observation_timestamp_utc}, ${dataStats.issue_observation_age_minutes} min old (${dataStats.issue_observation_source}). `
+            : '';
+        if (result.status === 'ok') {
+            document.getElementById('adwrn-prediction-window').textContent = result.validity || 'Unavailable';
+            const hazardMetrics = Object.entries(result.metrics.hazards || {})
+                .map(([hazard, values]) => `${hazard}: ${values.events}/${values.samples} test events, precision ${values.precision}, recall ${values.recall}, F1 ${values.f1}, Brier skill ${values.brier_skill}`)
+                .join('; ');
+            const windMetrics = result.metrics.wind_regression;
+            const directionMetric = windMetrics.direction_mae_degrees !== undefined
+                ? ` Direction MAE: ${windMetrics.direction_mae_degrees}° over ${windMetrics.direction_test_samples} test observations.`
+                : ' Wind direction could not be evaluated reliably.';
+            status.textContent = `${sourceSummary}${observationSummary}Experimental AI-generated outlook — not an official IMD warning. ` +
+                `Chronological holdout: ${hazardMetrics}. Wind MAE: ${windMetrics.speed_mae_kt} kt speed, ` +
+                `${windMetrics.gust_mae_kt} kt gust.${directionMetric} ${result.notes.join(' ')}`;
+        }
+    }).catch(error => {
+        showFallback();
+    }).finally(() => {
+        clearTimeout(timeoutId);
+    });
 };
+
+window.loadAdwrnModelStatus = function () {
+    const target = document.getElementById('adwrn-history-status');
+    if (!target) return;
+    fetch('/api/adwrn/model-status').then(r => r.json()).then(data => {
+        if (data.available) target.textContent = `Saved model available: ${data.record_count} validated METAR records, ${data.history_start}–${data.history_end} UTC.`;
+        else target.textContent = data.message || 'Historical data will be collected and the model trained automatically when you generate a forecast.';
+    }).catch(() => { target.textContent = 'Saved model status is unavailable.'; });
+};
+window.addEventListener('DOMContentLoaded', () => {
+    const today = new Date();
+    const dateValue = today.toISOString().slice(0, 10);
+    const forecastDate = document.getElementById('adwrn-forecast-date');
+    const forecastTime = document.getElementById('adwrn-forecast-time');
+    if (forecastDate && !forecastDate.value) forecastDate.value = dateValue;
+    if (forecastTime && !forecastTime.value) forecastTime.value = `${String(today.getUTCHours()).padStart(2, '0')}:00`;
+    window.loadAdwrnModelStatus();
+});
 
 
 setupDragAndDrop('upperAirForecastUploadArea', 'upperAirForecastFileInput', 'pdf');
