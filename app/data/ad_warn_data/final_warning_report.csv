@@ -1,64 +1,115 @@
-Aerodrome warning for station VOSR for August 2026
+Aerodrome warning for station VABB for September 2025
 Sl. No.,Elements (Thunderstorm/Surface wind & Gust),Warning issue Time,true-1 / false-0,Remarks,Station,Validity From,Validity To,Accuracy_Percentage,Warning_Type
-1,Gust warning,01/0230,1,Wind Speed 18KT Dir 250 matched,VOSR,010300Z,010700Z,100%,Wind
-2,Gust warning,01/0630,1,Wind Speed 21KT Dir 260 matched,VOSR,010700Z,011100Z,100%,Wind
-3,Gust warning,01/1030,1,Wind Speed 17KT Dir 250 matched,VOSR,011100Z,011500Z,100%,Wind
-4,Gust warning,02/0000,0,No gust/direction mismatch,VOSR,020030Z,020430Z,0%,Wind
-5,Gust warning,02/0400,1,Gust 27KT Dir 270 matched,VOSR,020430Z,020830Z,100%,Wind
-6,Gust warning,02/0800,1,Wind Speed 14KT Dir 260 matched,VOSR,020830Z,021230Z,100%,Wind
-7,Gust warning,03/0400,1,Wind Speed 16KT Dir 270 matched,VOSR,030430Z,030830Z,100%,Wind
-8,Gust warning,03/0800,1,Wind Speed 14KT Dir 260 matched,VOSR,030830Z,031230Z,100%,Wind
-9,Gust warning,03/1230,0,No gust/direction mismatch,VOSR,031300Z,031700Z,0%,Wind
-10,Gust warning,04/0315,1,Gust 26KT Dir 270 matched,VOSR,040330Z,040800Z,100%,Wind
-11,Gust warning,04/0715,1,Gust 26KT Dir 260 matched,VOSR,040730Z,041200Z,100%,Wind
-12,Gust warning,04/0900,1,Gust 26KT Dir 260 matched,VOSR,040930Z,041330Z,100%,Wind
-12,Thunderstorm warning,04/0900,0,Missing CB or direction mismatch,VOSR,040930Z,041330Z,0%,Thunderstorm
-13,Gust warning,05/0145,1,Wind Speed 15KT Dir 260 matched,VOSR,050200Z,050630Z,100%,Wind
-13,Thunderstorm warning,05/0145,0,Missing CB or direction mismatch,VOSR,050200Z,050630Z,0%,Thunderstorm
-14,Gust warning,05/0600,1,Wind Speed 16KT Dir 270 matched,VOSR,050630Z,051030Z,100%,Wind
-15,Gust warning,06/0430,0,No gust/direction mismatch,VOSR,060500Z,060900Z,0%,Wind
-16,Gust warning,06/1050,1,Gust 34KT Dir 270 matched,VOSR,061030Z,061500Z,100%,Wind
-17,Gust warning,07/0615,1,Wind Speed 15KT Dir 280 matched,VOSR,070630Z,071100Z,100%,Wind
-18,Gust warning,08/0245,1,Wind Speed 14KT Dir 270 matched,VOSR,080300Z,080700Z,100%,Wind
-19,Gust warning,08/0630,1,Wind Speed 17KT Dir 280 matched,VOSR,080700Z,081100Z,100%,Wind
-20,Gust warning,09/0415,1,Wind Speed 14KT Dir 270 matched,VOSR,090430Z,090900Z,100%,Wind
-21,Gust warning,09/0815,1,Wind Speed 14KT Dir 280 matched,VOSR,090830Z,091300Z,100%,Wind
-22,Gust warning,10/0500,1,Wind Speed 18KT Dir 270 matched,VOSR,100530Z,100930Z,100%,Wind
-23,Gust warning,10/0930,1,Wind Speed 14KT Dir 280 matched,VOSR,101000Z,101400Z,100%,Wind
-24,Gust warning,11/0445,1,Gust 22KT Dir 280 matched,VOSR,110500Z,110930Z,100%,Wind
-25,Gust warning,11/1045,1,Wind Speed 16KT Dir 250 matched,VOSR,111100Z,111500Z,100%,Wind
-26,Gust warning,12/0500,1,Wind Speed 14KT Dir 270 matched,VOSR,120500Z,120900Z,100%,Wind
-27,Gust warning,12/0900,0,No gust/direction mismatch,VOSR,120930Z,121330Z,0%,Wind
-28,Gust warning,13/0600,1,Gust 25KT Dir 300 matched,VOSR,130630Z,131030Z,100%,Wind
-28,Thunderstorm warning,13/0600,0,Missing CB or direction mismatch,VOSR,130630Z,131030Z,0%,Thunderstorm
-29,Gust warning,13/1000,0,No gust/direction mismatch,VOSR,131030Z,131430Z,0%,Wind
-29,Thunderstorm warning,13/1000,0,Missing CB or direction mismatch,VOSR,131030Z,131430Z,0%,Thunderstorm
-30,Gust warning,14/0445,1,Wind Speed 15KT Dir 260 matched,VOSR,140500Z,140930Z,100%,Wind
-31,Gust warning,14/0845,1,Wind Speed 14KT Dir 260 matched,VOSR,140900Z,141330Z,100%,Wind
-32,Gust warning,15/0210,1,Wind Speed 15KT Dir 260 matched,VOSR,150230Z,150700Z,100%,Wind
-33,Gust warning,16/0645,1,OBS,VOSR,160630Z,161100Z,100%,Wind
-34,Gust warning,16/1015,0,No gust/direction mismatch,VOSR,161030Z,161500Z,0%,Wind
-35,Gust warning,17/0500,1,Wind Speed 14KT Dir 250 matched,VOSR,170530Z,170930Z,100%,Wind
-36,Gust warning,17/0915,1,Wind Speed 15KT Dir 250 matched,VOSR,170930Z,171330Z,100%,Wind
-37,Gust warning,18/0600,1,Gust 30KT Dir 270 matched,VOSR,180630Z,1881030Z,100%,Wind
-38,Gust warning,18/1000,1,Wind Speed 14KT Dir 280 matched,VOSR,181030Z,181430Z,100%,Wind
-39,Gust warning,19/0600,1,Gust 30KT Dir 290 matched,VOSR,190630Z,191030Z,100%,Wind
-40,Gust warning,19/1000,0,No gust/direction mismatch,VOSR,191030Z,191430Z,0%,Wind
-41,Gust warning,20/0445,1,Wind Speed 15KT Dir 260 matched,VOSR,200500Z,200930Z,100%,Wind
-42,Gust warning,20/0845,1,Wind Speed 15KT Dir 260 matched,VOSR,200900Z,201330Z,100%,Wind
-43,Gust warning,21/0545,1,Wind Speed 14KT Dir 260 matched,VOSR,210600Z,211030Z,100%,Wind
-44,Gust warning,22/0645,1,Gust 26KT Dir 270 matched,VOSR,220700Z,221130Z,100%,Wind
-45,Gust warning,22/1100,0,No gust/direction mismatch,VOSR,221130Z,221530Z,0%,Wind
-46,Gust warning,23/0300,1,Wind Speed 16KT Dir 260 matched,VOSR,230330Z,230730Z,100%,Wind
-47,Gust warning,23/0700,1,Gust 26KT Dir 300 matched,VOSR,230730Z,231130Z,100%,Wind
-48,Gust warning,23/1100,1,Gust 26KT Dir 300 matched,VOSR,231130Z,231530Z,100%,Wind
-49,Gust warning,24/0430,1,Wind Speed 15KT Dir 260 matched,VOSR,240500Z,240900Z,100%,Wind
-50,Gust warning,24/0830,1,Wind Speed 14KT Dir 270 matched,VOSR,240900Z,241300Z,100%,Wind
-51,Gust warning,26/0545,1,Wind Speed 14KT Dir 270 matched,VOSR,260600Z,261030Z,100%,Wind
-52,Gust warning,26/0945,1,Wind Speed 14KT Dir 280 matched,VOSR,261000Z,261430Z,100%,Wind
-53,Gust warning,27/0430,1,OBS,VOSR,270430Z,270830Z,100%,Wind
-55,Gust warning,28/0845,1,Wind Speed 15KT Dir 260 matched,VOSR,280900Z,281330Z,100%,Wind
-56,Gust warning,29/0300,1,OBS,VOSR,280300Z,290700Z,100%,Wind
-57,Gust warning,29/0730,1,Gust 30KT Dir 270 matched,VOSR,290800Z,291200Z,100%,Wind
-58,Gust warning,31/0515,0,No gust/direction mismatch,VOSR,310530Z,311000Z,0%,Wind
-59,Gust warning,31/0945,0,No gust/direction mismatch,VOSR,311000Z,311430Z,0%,Wind
+1,Gust warning,01/0000,1,Gust 20KT Dir 250 matched FEW030CB found,VABB,010030Z,010430Z,100%,Wind
+2,Gust warning,01/0400,1,Gust 22KT Dir 240 matched FEW030CB found,VABB,010430Z,010830Z,100%,Wind
+3,Gust warning,01/0800,1,Wind Speed 14KT Dir 250 matched,VABB,010830Z,011230Z,100%,Wind
+4,Gust warning,01/1430,1,Gust 22KT Dir 250 matched,VABB,011500Z,011900Z,100%,Wind
+5,Gust warning,01/1830,1,Gust 20KT Dir 250 matched,VABB,011900Z,012100Z,100%,Wind
+6,Gust warning,01/2030,1,Gust 17KT Dir 260 matched,VABB,012100Z,020100Z,100%,Wind
+7,Gust warning,02/0030,0,No gust/direction mismatch,VABB,020100Z,020500Z,0%,Wind
+8,Gust warning,02/0430,1,Wind Speed 14KT Dir 280 matched,VABB,020500Z,020900Z,100%,Wind
+9,Gust warning,02/0830,1,Wind Speed 15KT Dir 260 matched,VABB,020900Z,021300Z,100%,Wind
+10,Gust warning,02/1230,0,No gust/direction mismatch,VABB,021300Z,021700Z,0%,Wind
+11,Gust warning,02/1630,1,Wind Speed 14KT Dir 260 matched,VABB,021700Z,022100Z,100%,Wind
+12,Gust warning,02/2030,1,Wind Speed 14KT Dir 260 matched,VABB,022100Z,030100Z,100%,Wind
+13,Gust warning,03/0030,0,No gust/direction mismatch,VABB,030100Z,030500Z,0%,Wind
+14,Gust warning,03/0530,1,Gust 20KT Dir 280 matched,VABB,030600Z,031000Z,100%,Wind
+15,Gust warning,03/0930,1,Wind Speed 14KT Dir 280 matched,VABB,031000Z,031400Z,100%,Wind
+16,Gust warning,04/0330,0,No gust/direction mismatch,VABB,040400Z,040800Z,0%,Wind
+16,Thunderstorm warning,04/0330,1, FEW030CB found,VABB,040400Z,040800Z,100%,Thunderstorm
+17,Gust warning,04/0730,0,No gust/direction mismatch,VABB,040800Z,041200Z,0%,Wind
+17,Thunderstorm warning,04/0730,0,Missing CB or direction mismatch,VABB,040800Z,041200Z,0%,Thunderstorm
+18,Gust warning,04/2000,0,No gust/direction mismatch,VABB,042030Z,050030Z,0%,Wind
+19,Gust warning,05/0300,1,Gust 23KT Dir 290 matched,VABB,050330Z,050730Z,100%,Wind
+20,Gust warning,05/0730,0,No gust/direction mismatch,VABB,050800Z,051200Z,0%,Wind
+21,Gust warning,05/1645,1,Gust 19KT Dir 280 matched FEW030CB found,VABB,051700Z,052130Z,100%,Wind
+22,Gust warning,05/2045,1,Wind Speed 15KT Dir 270 matched,VABB,052100Z,060130Z,100%,Wind
+23,Gust warning,06/0100,1,Wind Speed 14KT Dir 270 matched FEW030CB found,VABB,060130Z,060530Z,100%,Wind
+24,Gust warning,06/0830,0,No gust/direction mismatch,VABB,060900Z,061300Z,0%,Wind
+25,Gust warning,06/1515,1,Gust 18KT Dir 230 matched FEW030CB found,VABB,061530Z,061930Z,100%,Wind
+26,Gust warning,06/1945,1,Gust 17KT Dir 220 matched FEW030CB found,VABB,062000Z,070000Z,100%,Wind
+27,Gust warning,07/0000,1,Gust 19KT Dir 250 matched FEW030CB found,VABB,070030Z,070430Z,100%,Wind
+28,Gust warning,07/0400,1,Wind Speed 14KT Dir 260 matched FEW030CB found,VABB,070430Z,070830Z,100%,Wind
+29,Gust warning,07/0800,1,Wind Speed 14KT Dir 260 matched,VABB,070830Z,071230Z,100%,Wind
+30,Gust warning,08/0240,1,Gust 18KT Dir 230 matched,VABB,080300Z,080730Z,100%,Wind
+31,Gust warning,08/0645,1,Gust 18KT Dir 230 matched,VABB,080700Z,081130Z,100%,Wind
+32,Gust warning,08/1045,0,No gust/direction mismatch,VABB,081100Z,081530Z,0%,Wind
+33,Gust warning,09/0400,1,Gust 17KT Dir 220 matched,VABB,090430Z,090830Z,100%,Wind
+34,Gust warning,09/0800,0,No gust/direction mismatch,VABB,090830Z,091230Z,0%,Wind
+35,Gust warning,11/0830,0,No gust/direction mismatch,VABB,110900Z,111300Z,0%,Wind
+36,Gust warning,12/1130,0,No gust/direction mismatch,VABB,121200Z,121600Z,0%,Wind
+37,Gust warning,13/0800,0,No gust/direction mismatch,VABB,130830Z,131230Z,0%,Wind
+37,Thunderstorm warning,13/0800,1, FEW030CB found,VABB,130830Z,131230Z,100%,Thunderstorm
+38,Gust warning,13/1230,0,No gust/direction mismatch,VABB,131300Z,131700Z,0%,Wind
+38,Thunderstorm warning,13/1230,1, FEW030CB found,VABB,131300Z,131700Z,100%,Thunderstorm
+39,Gust warning,13/1845,1,OBS,VABB,131830Z,132300Z,100%,Wind
+39,Thunderstorm warning,13/1845,1,OBS,VABB,131830Z,132300Z,100%,Thunderstorm
+40,Gust warning,14/1600,0,No gust/direction mismatch,VABB,141630Z,142030Z,0%,Wind
+40,Thunderstorm warning,14/1600,1, FEW030CB found,VABB,141630Z,142030Z,100%,Thunderstorm
+41,Gust warning,14/2000,0,No gust/direction mismatch,VABB,142030Z,150030Z,0%,Wind
+41,Thunderstorm warning,14/2000,1, FEW030CB found,VABB,142030Z,150030Z,100%,Thunderstorm
+42,Gust warning,15/0000,0,No gust/direction mismatch,VABB,150030Z,150430Z,0%,Wind
+42,Thunderstorm warning,15/0000,1, FEW030CB found,VABB,150030Z,150430Z,100%,Thunderstorm
+43,Gust warning,15/0400,0,No gust/direction mismatch,VABB,150430Z,150830Z,0%,Wind
+43,Thunderstorm warning,15/0400,1, FEW030CB found,VABB,150430Z,150830Z,100%,Thunderstorm
+44,Gust warning,15/0800,0,No gust/direction mismatch,VABB,150830Z,151230Z,0%,Wind
+44,Thunderstorm warning,15/0800,1, FEW030CB found,VABB,150830Z,151230Z,100%,Thunderstorm
+45,Gust warning,16/0830,0,No gust/direction mismatch,VABB,160900Z,161300Z,0%,Wind
+45,Thunderstorm warning,16/0830,1, FEW030CB found,VABB,160900Z,161300Z,100%,Thunderstorm
+46,Gust warning,18/1030,0,No gust/direction mismatch,VABB,181100Z,181500Z,0%,Wind
+46,Thunderstorm warning,18/1030,1, FEW030CB found,VABB,181100Z,181500Z,100%,Thunderstorm
+47,Gust warning,18/1900,0,No gust/direction mismatch,VABB,181930Z,182330Z,0%,Wind
+47,Thunderstorm warning,18/1900,1, FEW030CB found,VABB,181930Z,182330Z,100%,Thunderstorm
+48,Gust warning,18/2300,0,No gust/direction mismatch,VABB,182330Z,190330Z,0%,Wind
+48,Thunderstorm warning,18/2300,1, FEW030CB found,VABB,182330Z,190330Z,100%,Thunderstorm
+49,Gust warning,19/0900,0,No gust/direction mismatch,VABB,190930Z,191330Z,0%,Wind
+49,Thunderstorm warning,19/0900,1, FEW030CB found,VABB,190930Z,191330Z,100%,Thunderstorm
+50,Gust warning,20/0930,0,No gust/direction mismatch,VABB,201000Z,201400Z,0%,Wind
+51,Thunderstorm warning,20/1645,1,OBS,VABB,201630Z,202100Z,100%,Thunderstorm
+52,Thunderstorm warning,21/0130,1, FEW030CB found,VABB,210200Z,210600Z,100%,Thunderstorm
+53,Gust warning,21/0800,1,Wind Speed 14KT Dir 290 matched FEW030CB found,VABB,210830Z,211230Z,100%,Wind
+53,Thunderstorm warning,21/0800,1, FEW030CB found,VABB,210830Z,211230Z,100%,Thunderstorm
+54,Gust warning,21/1200,0,No gust/direction mismatch,VABB,211230Z,211630Z,0%,Wind
+54,Thunderstorm warning,21/1200,1, FEW030CB found,VABB,211230Z,211630Z,100%,Thunderstorm
+55,Gust warning,21/1600,0,No gust/direction mismatch,VABB,211630Z,212030Z,0%,Wind
+55,Thunderstorm warning,21/1600,1, FEW030CB found,VABB,211630Z,212030Z,100%,Thunderstorm
+56,Thunderstorm warning,21/2130,1, FEW030CB found,VABB,212200Z,220200Z,100%,Thunderstorm
+57,Thunderstorm warning,22/0130,1, FEW030CB found,VABB,220200Z,220600Z,100%,Thunderstorm
+58,Thunderstorm warning,22/0530,1, FEW030CB found,VABB,220600Z,221000Z,100%,Thunderstorm
+59,Thunderstorm warning,22/1400,1, FEW030CB found,VABB,221430Z,221830Z,100%,Thunderstorm
+60,Thunderstorm warning,23/0030,0,Missing CB or direction mismatch,VABB,230100Z,230500Z,0%,Thunderstorm
+61,Gust warning,24/1000,0,No gust/direction mismatch,VABB,241030Z,241430Z,0%,Wind
+62,Gust warning,25/0600,0,No gust/direction mismatch,VABB,250630Z,251030Z,0%,Wind
+63,Gust warning,26/1100,0,No gust/direction mismatch,VABB,261130Z,261530Z,0%,Wind
+63,Thunderstorm warning,26/1100,1, FEW030CB found,VABB,261130Z,261530Z,100%,Thunderstorm
+64,Gust warning,27/0130,0,No gust/direction mismatch,VABB,270200Z,270600Z,0%,Wind
+64,Thunderstorm warning,27/0130,1, FEW030CB found,VABB,270200Z,270600Z,100%,Thunderstorm
+65,Thunderstorm warning,27/0530,1, FEW030CB found,VABB,270600Z,271000Z,100%,Thunderstorm
+66,Thunderstorm warning,27/0930,1, FEW030CB found,VABB,271000Z,271400Z,100%,Thunderstorm
+67,Gust warning,27/1330,0,No gust/direction mismatch,VABB,271400Z,271800Z,0%,Wind
+67,Thunderstorm warning,27/1330,1, FEW030CB found,VABB,271400Z,271800Z,100%,Thunderstorm
+68,Gust warning,27/1730,1,Wind Speed 18KT Dir 250 matched FEW030CB found,VABB,271800Z,272200Z,100%,Wind
+68,Thunderstorm warning,27/1730,1, FEW030CB found,VABB,271800Z,272200Z,100%,Thunderstorm
+69,Gust warning,27/2130,0,No gust/direction mismatch,VABB,272200Z,280200Z,0%,Wind
+69,Thunderstorm warning,27/2130,1, FEW030CB found,VABB,272200Z,280200Z,100%,Thunderstorm
+70,Gust warning,28/0130,1,Gust 20KT Dir 270 matched FEW030CB found,VABB,280200Z,280600Z,100%,Wind
+70,Thunderstorm warning,28/0130,1, FEW030CB found,VABB,280200Z,280600Z,100%,Thunderstorm
+71,Gust warning,28/0530,1,Gust 21KT Dir 290 matched FEW030CB found,VABB,280600Z,281000Z,100%,Wind
+71,Thunderstorm warning,28/0530,1, FEW030CB found,VABB,280600Z,281000Z,100%,Thunderstorm
+72,Gust warning,28/0930,1,Gust 27KT Dir 260 matched FEW030CB found,VABB,281000Z,281400Z,100%,Wind
+72,Thunderstorm warning,28/0930,1, FEW030CB found,VABB,281000Z,281400Z,100%,Thunderstorm
+73,Gust warning,28/1330,1,Gust 24KT Dir 250 matched FEW030CB found,VABB,281400Z,281800Z,100%,Wind
+73,Thunderstorm warning,28/1330,1, FEW030CB found,VABB,281400Z,281800Z,100%,Thunderstorm
+74,Gust warning,28/1730,1,Gust 29KT Dir 250 matched,VABB,281800Z,282200Z,100%,Wind
+75,Gust warning,28/2130,1,Gust 24KT Dir 220 matched,VABB,282200Z,290200Z,100%,Wind
+75,Thunderstorm warning,28/2130,0,Missing CB or direction mismatch,VABB,282200Z,290200Z,0%,Thunderstorm
+76,Gust warning,29/0130,1,Gust 21KT Dir 240 matched,VABB,290200Z,290600Z,100%,Wind
+77,Gust warning,29/0530,1,Wind Speed 14KT Dir 270 matched,VABB,290600Z,291000Z,100%,Wind
+78,Gust warning,29/1030,1,Gust 21KT Dir 250 matched,VABB,291100Z,291500Z,100%,Wind
+79,Gust warning,29/1630,1,OBS,VABB,291630Z,292030Z,100%,Wind
+80,Gust warning,29/2000,0,No gust/direction mismatch,VABB,292030Z,300030Z,0%,Wind
+81,Gust warning,30/0100,0,No gust/direction mismatch,VABB,300130Z,300530Z,0%,Wind
+82,Gust warning,30/0500,0,No gust/direction mismatch,VABB,300530Z,300930Z,0%,Wind
+83,Gust warning,30/0900,0,No gust/direction mismatch,VABB,300930Z,301330Z,0%,Wind
+84,Gust warning,30/1300,0,No gust/direction mismatch,VABB,301330Z,301730Z,0%,Wind
+85,Gust warning,30/1700,0,No gust/direction mismatch,VABB,301730Z,302130Z,0%,Wind
